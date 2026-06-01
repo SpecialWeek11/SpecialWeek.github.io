@@ -1,0 +1,406 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#496b8c"><meta name="description" content="SpecialWeek"><meta name="author" content="SpecialWeek"><meta name="generator" content="Hexo 8.1.2"><title>苍穹外卖功能优化 | SpecialWeek</title><style>:root {
+  --accent: #496b8c;
+  --accent-strong: color-mix(in srgb, #496b8c 62%, #223142);
+  --accent-soft: #dce8f0;
+}</style><link rel="stylesheet" href="/css/hsad-theme.css"><script src="/js/hsad-theme.js" defer></script></head><body class="view-inner view-post"><div class="reading-progress" aria-hidden="true"><span class="reading-progress__bar" data-reading-progress></span></div><div class="page-aura page-aura--one"></div><div class="page-aura page-aura--two"></div><div class="site-shell"><aside class="site-sidebar"><section class="sidebar sidebar--desktop"><div class="sidebar__backdrop" style="background-image:url(/images/background.png)"></div><div class="sidebar__overlay"></div><div class="sidebar__content"><a class="sidebar__brand" href="/"><img class="sidebar__avatar" src="/images/1.jpg" alt="SpecialWeek"><div class="sidebar__identity"><h2 class="sidebar__title">SpecialWeek</h2><p class="sidebar__subtitle">为了美好的明天加油！！！！</p></div></a><p class="sidebar__description">写下我想写的话。</p><nav class="sidebar__nav" aria-label="Primary"><a href="/">首页</a><a href="/archives/">归档</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/links/">友链</a><a href="/about/">关于我</a></nav><div class="sidebar__social"><a href="https://github.com/SpecialWeek11" target="_blank" rel="noopener">GitHub</a><a href="mailto:504957307@qq.com" target="_blank" rel="noopener">E-Mail</a></div></div></section></aside><div class="mobile-topbar"><button class="mobile-topbar__toggle js-drawer-toggle" type="button" aria-label="Open navigation"><span></span><span></span><span></span></button><a class="mobile-topbar__title" href="/">SpecialWeek</a><a class="mobile-topbar__avatar" href="/"><img src="/images/1.jpg" alt="SpecialWeek"></a></div><div class="mobile-drawer" data-drawer aria-hidden="true"><div class="mobile-drawer__panel"><section class="sidebar sidebar--mobile"><div class="sidebar__backdrop" style="background-image:url(/images/background.png)"></div><div class="sidebar__overlay"></div><div class="sidebar__content"><a class="sidebar__brand" href="/"><img class="sidebar__avatar" src="/images/1.jpg" alt="SpecialWeek"><div class="sidebar__identity"><h2 class="sidebar__title">SpecialWeek</h2><p class="sidebar__subtitle">为了美好的明天加油！！！！</p></div></a><p class="sidebar__description">写下我想写的话。</p><nav class="sidebar__nav" aria-label="Primary"><a href="/">首页</a><a href="/archives/">归档</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/links/">友链</a><a href="/about/">关于我</a></nav><div class="sidebar__social"><a href="https://github.com/SpecialWeek11" target="_blank" rel="noopener">GitHub</a><a href="mailto:504957307@qq.com" target="_blank" rel="noopener">E-Mail</a></div></div></section></div></div><div class="mobile-backdrop js-drawer-close"></div><main class="site-main"><div class="article-layout article-layout--with-toc"><article class="article"><header class="article__header"><h1 class="article__title">苍穹外卖功能优化</h1><div class="article__meta"><time datetime="2026-05-30T15:12:05.000Z">2026-05-30</time><span class="article__divider">/</span><span>更新于 2026-06-02</span></div><div class="article__tags"><a class="article__tag" href="/tags/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96/">苍穹外卖</a></div></header><details class="post-outline post-outline--mobile"><summary class="post-outline__summary"><span>本文导航</span><small>按标题快速定位</small></summary><nav class="post-toc" data-post-toc><ol class="post-toc__list"><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E7%BC%93%E5%AD%98%E8%8F%9C%E5%93%81"><span class="post-toc__list-text">缓存菜品</span></a><ol class="post-toc__list-child"><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="post-toc__list-text">实现思路</span></a></li><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="post-toc__list-text">代码实现</span></a></li></ol></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#SpringCache"><span class="post-toc__list-text">SpringCache</span></a><ol class="post-toc__list-child"><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#%E4%BD%BF%E7%94%A8Cache"><span class="post-toc__list-text">使用Cache</span></a></li></ol></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E7%BC%93%E5%AD%98%E5%A5%97%E9%A4%90"><span class="post-toc__list-text">缓存套餐</span></a><ol class="post-toc__list-child"><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="post-toc__list-text">实现步骤</span></a></li><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="post-toc__list-text">代码实现</span></a></li></ol></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E6%B7%BB%E5%8A%A0%E8%B4%AD%E7%89%A9%E8%BD%A6"><span class="post-toc__list-text">添加购物车</span></a><ol class="post-toc__list-child"><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E5%92%8C%E8%AE%BE%E8%AE%A1"><span class="post-toc__list-text">需求分析和设计</span></a></li><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1"><span class="post-toc__list-text">代码设计</span></a></li></ol></li></ol></nav></details><div class="article__content"><h2 id="缓存菜品"><a href="#缓存菜品" class="headerlink" title="缓存菜品"></a>缓存菜品</h2><p>用户端小程序展示的菜品数据都是通过查询数据库获得，如果用户端访问量比较大，数据库访问压力随之增大。就会导致系统响应慢，用户体验差。</p>
+
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>通过Redis来缓存菜品数据，减少数据库查询操作。</p>
+<p><img src="/../images/%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96images/1.png" alt="alt text"></p>
+<p>缓存逻辑分析：</p>
+<p>1.每个分类下的菜品保存一份缓存数据</p>
+<p>2.数据库中菜品数据有变更时清理缓存数<br><img src="/../images/%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96images/2.png" alt="alt text"><br>key为分类的id，值为菜品信息。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>修改DishController中的根据分类id查询菜品的list方法。添加查询redis缓存的功能。</p>
+<details>
+<summary><span style="color:green">设计代码展开</span></summary>
+
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+   <span class="token keyword">private</span> <span class="token class-name">RedisTemplate</span> redisTemplate<span class="token punctuation">;</span>
+<span class="token comment">/**
+    * 根据分类id查询菜品
+    *
+    * @param categoryId
+    * @return
+    */</span>
+   <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/list"</span><span class="token punctuation">)</span>
+   <span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"根据分类id查询菜品"</span><span class="token punctuation">)</span>
+   <span class="token keyword">public</span> <span class="token class-name">Result</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">List</span><span class="token punctuation">&lt;</span><span class="token class-name">DishVO</span><span class="token punctuation">></span><span class="token punctuation">></span></span> <span class="token function">list</span><span class="token punctuation">(</span><span class="token class-name">Long</span> categoryId<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+       <span class="token comment">//构造redis中的key，规则：dish_分类id</span>
+       <span class="token class-name">String</span> key <span class="token operator">=</span> <span class="token string">"dish_"</span> <span class="token operator">+</span> categoryId<span class="token punctuation">;</span>
+
+       <span class="token comment">//查询redis中是否存在菜品数据</span>
+       <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">DishVO</span><span class="token punctuation">></span></span> list <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">DishVO</span><span class="token punctuation">></span></span><span class="token punctuation">)</span> redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">if</span><span class="token punctuation">(</span>list <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+           <span class="token comment">//如果存在，直接返回，无须查询数据库</span>
+           <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+	<span class="token comment">////////////////////////////////////////////////////////</span>
+       <span class="token class-name">Dish</span> dish <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dish</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       dish<span class="token punctuation">.</span><span class="token function">setCategoryId</span><span class="token punctuation">(</span>categoryId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       dish<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">StatusConstant</span><span class="token punctuation">.</span><span class="token constant">ENABLE</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//查询起售中的菜品</span>
+
+       <span class="token comment">//如果不存在，查询数据库，将查询到的数据放入redis中</span>
+       list <span class="token operator">=</span> dishService<span class="token punctuation">.</span><span class="token function">listWithFlavor</span><span class="token punctuation">(</span>dish<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token comment">////////////////////////////////////////////////////////</span>
+       <span class="token comment">//这里我们放进去的就是list类型虽然放进去的时候序列化成了String，但是我们在取用的时候还得用list所属类型来接收。</span>
+       redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+       <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span></code></pre>
+</details>
+<p>我们放进去的是list类型，虽然放进去的时候序列化成了String，但是我们在取用的时候还得用list所属类型来接收。</p>
+
+<p><span style="color:red">问题：不清理缓存就会导致数据库和页面内容不同步</span></p>
+<p>在数据库进行增删改等操作时，数据库中数据会发生变化，但是Redis中缓存的数据未发生变化从而导致数据库和Redis中的缓存的数据不一致，故而在对数据库进行操作时，需要加入清理缓存逻辑来清理Redis中对应的未同步缓存数据</p>
+需要修改的方法：
+<ul>
+  <li>新增菜品</li>
+  <li>修改菜品</li>
+  <li>批量删除菜品</li>
+  <li>起售，停售菜品</li>
+</ul>
+
+<p><span style="color:blue">在DishController中添加删除缓存的方法</span></p>
+<p>在这部分的代码中可能涉及到多张表的缓存删除操作，我们统一用删除所有缓存的方法，后续会优化。</p>
+
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+   <span class="token keyword">private</span> <span class="token class-name">RedisTemplate</span> redisTemplate<span class="token punctuation">;</span>
+<span class="token comment">/**
+    * 清理缓存数据
+    * @param pattern
+    */</span>
+   <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">cleanCache</span><span class="token punctuation">(</span><span class="token class-name">String</span> pattern<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+       <span class="token class-name">Set</span> keys <span class="token operator">=</span> redisTemplate<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>pattern<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       redisTemplate<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span>keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span></code></pre>
+<p>(1)新增菜品</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@PostMapping</span>
+<span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"新增菜品"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token class-name">Result</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">DishDTO</span> dishDTO<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"新增菜品：&#123;&#125;"</span><span class="token punctuation">,</span> dishDTO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dishService<span class="token punctuation">.</span><span class="token function">saveWithFlavor</span><span class="token punctuation">(</span>dishDTO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//清理缓存数据</span>
+    <span class="token class-name">String</span> key <span class="token operator">=</span> <span class="token string">"dish_"</span> <span class="token operator">+</span> dishDTO<span class="token punctuation">.</span><span class="token function">getCategoryId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cleanCache</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>(2)批量删除菜品</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@DeleteMapping</span>
+<span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"菜品批量删除"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token class-name">Result</span> <span class="token function">delete</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Long</span><span class="token punctuation">></span></span> ids<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"菜品批量删除：&#123;&#125;"</span><span class="token punctuation">,</span> ids<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dishService<span class="token punctuation">.</span><span class="token function">deleteBatch</span><span class="token punctuation">(</span>ids<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//将所有的菜品缓存数据清理掉，所有以dish_开头的key</span>
+    <span class="token function">cleanCache</span><span class="token punctuation">(</span><span class="token string">"dish_*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>(3)修改菜品优化</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"修改菜品"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token class-name">Result</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">DishDTO</span> dishDTO<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"修改菜品：&#123;&#125;"</span><span class="token punctuation">,</span> dishDTO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dishService<span class="token punctuation">.</span><span class="token function">updateWithFlavor</span><span class="token punctuation">(</span>dishDTO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//将所有的菜品缓存数据清理掉，所有以dish_开头的key</span>
+    <span class="token function">cleanCache</span><span class="token punctuation">(</span><span class="token string">"dish_*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>(4)菜品起售停售</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/status/&#123;status&#125;"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"菜品起售停售"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token class-name">Result</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">startOrStop</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span> <span class="token class-name">Integer</span> status<span class="token punctuation">,</span> <span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    dishService<span class="token punctuation">.</span><span class="token function">startOrStop</span><span class="token punctuation">(</span>status<span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//将所有的菜品缓存数据清理掉，所有以dish_开头的key</span>
+    <span class="token function">cleanCache</span><span class="token punctuation">(</span><span class="token string">"dish_*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<h2 id="SpringCache"><a href="#SpringCache" class="headerlink" title="SpringCache"></a>SpringCache</h2><p>Spring Cache 是一个框架，实现了基于注解的缓存功能，只需要简单地加一个注解，就能实现缓存功能,操作类似于通过注解来实现事务管理</p>
+Spring Cache 提供了一层抽象，底层可以切换不同的缓存实现，例如：
+<ul>
+  <li>EHCache</li>
+  <li>Caffeine</li>
+  <li>Redis</li>
+</ul>
+我们这里的缓存实现是Redis。
+
+<p>使用springCache需导入坐标</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org. springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-cache<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.7.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span></code></pre>
+<p><span style="color:red">常用注解</span><br>@EnableCaching	开启缓存注解功能，通常加在启动类上</p>
+<p>@Cacheable	<br>在方法执行前先查询缓存中是否有数据，如果有数据，则直接返回缓存数据；如果没有缓存数据，调用方法并将方法返回值放到缓存中，通常加在方法上</p>
+<p>@CachePut	将方法的返回值放到缓存中</p>
+<p>@CacheEvict	将一条或多条数据从缓存中删除</p>
+<h3 id="使用Cache"><a href="#使用Cache" class="headerlink" title="使用Cache"></a>使用Cache</h3><ol>
+  <li>导入cache mavean坐标</li>
+  <li>需保证项目中具有缓存实现的mavean坐标，如：Redis的mavean坐标</li>
+  <li>引导类上加@EnableCaching:（开启缓存注解功能）</li>
+</ol>
+(1)@CachePut注解
+
+<p>当前UserController的save方法是用来保存用户信息的，我们希望在该用户信息保存到数据库的同时，也往缓存中缓存一份数据，我们可以在save方法上加上注解 @CachePut，用法如下：</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token comment">/**
+* CachePut：将方法返回值放入缓存
+* value：缓存的名称，每个缓存名称下面可以有多个key
+* key：缓存的key
+*/</span>
+<span class="token annotation punctuation">@PostMapping</span>
+   <span class="token annotation punctuation">@CachePut</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token string">"userCache"</span><span class="token punctuation">,</span> key <span class="token operator">=</span> <span class="token string">"#user.id"</span><span class="token punctuation">)</span><span class="token comment">//key的生成：userCache::1</span>
+   <span class="token keyword">public</span> <span class="token class-name">User</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">User</span> user<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+       userMapper<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">return</span> user<span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span></code></pre>
+<p>需要注意的是注解中key的值，他的命名需要和方法中的形参的名字一样，以此来动态的获取id数据，如上方示例user.id是取形参user的id属性的值。我们也可以通过获取方法返回值的属性值；如此方法在注解的key中赋值”#result.id”就可以获取方法返回值user的id属性。最终他会通过代理对象来计算key为 userCache::1。</p>
+<p>其他的赋值方式</p>
+<p>#user.id	使用user的id属性作为key</p>
+<p>#result.id	以返回对象的id属性作为key</p>
+<p>#p0.id	使用第一个参数p0的id属性作为key</p>
+<p>#a0.id	使用第一个参数的id属性作为key</p>
+<p>#root.args[0].id 使用第一个参数的id属性作为key</p>
+<p>(2)@Cacheable注解</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token comment">/**
+* Cacheable：在方法执行前spring先查看缓存中是否有数据，如果有数据，则直接返回缓存数据；若没有数据，	  *调用方法并将方法返回值放到缓存中
+* value：缓存的名称，每个缓存名称下面可以有多个key
+* key：缓存的key
+*/</span>
+<span class="token annotation punctuation">@GetMapping</span>
+   <span class="token annotation punctuation">@Cacheable</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"userCache"</span><span class="token punctuation">,</span>key<span class="token operator">=</span><span class="token string">"#id"</span><span class="token punctuation">)</span>
+   <span class="token keyword">public</span> <span class="token class-name">User</span> <span class="token function">getById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+       <span class="token class-name">User</span> user <span class="token operator">=</span> userMapper<span class="token punctuation">.</span><span class="token function">getById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">return</span> user<span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span></code></pre>
+
+<p>(3)@CacheEvict注解</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@DeleteMapping</span>
+   <span class="token annotation punctuation">@CacheEvict</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"userCache"</span><span class="token punctuation">,</span>key <span class="token operator">=</span> <span class="token string">"#id"</span><span class="token punctuation">)</span><span class="token comment">//删除某个key对应的缓存数据</span>
+   <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deleteById</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+       userMapper<span class="token punctuation">.</span><span class="token function">deleteById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+
+<span class="token annotation punctuation">@DeleteMapping</span><span class="token punctuation">(</span><span class="token string">"/delAll"</span><span class="token punctuation">)</span>
+   <span class="token annotation punctuation">@CacheEvict</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"userCache"</span><span class="token punctuation">,</span>allEntries <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token comment">//删除userCache下所有的缓存数据</span>
+   <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deleteAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+       userMapper<span class="token punctuation">.</span><span class="token function">deleteAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span></code></pre>
+<p><span style="color:red">删除userCache下所有的缓存数据：cacheNames &#x3D; “…” ，allEntries &#x3D; true</span></p>
+<h2 id="缓存套餐"><a href="#缓存套餐" class="headerlink" title="缓存套餐"></a>缓存套餐</h2><h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><p>(1). 导入Spring Cache和Redis相关maven坐标</p>
+<p>(2). 在启动类上加入@EnableCaching注解，开启缓存注解功能</p>
+<p>(3). 在用户端接口SetmealController的 list 方法上加入@Cacheable注解</p>
+<p>(4). 在管理端接口SetmealController的增删改类等方法上加入@CacheEvict注解</p>
+<h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><p>1.用户端的SetmealController的list方法</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/list"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"根据分类id查询套餐"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Cacheable</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"setmealCache"</span><span class="token punctuation">,</span>key <span class="token operator">=</span> <span class="token string">"#categoryId"</span><span class="token punctuation">)</span> <span class="token comment">//key: setmealCache::100</span>
+<span class="token keyword">public</span> <span class="token class-name">Result</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">List</span><span class="token punctuation">&lt;</span><span class="token class-name">Setmeal</span><span class="token punctuation">></span><span class="token punctuation">></span></span> <span class="token function">list</span><span class="token punctuation">(</span><span class="token class-name">Long</span> categoryId<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Setmeal</span> setmeal <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Setmeal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    setmeal<span class="token punctuation">.</span><span class="token function">setCategoryId</span><span class="token punctuation">(</span>categoryId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    setmeal<span class="token punctuation">.</span><span class="token function">setStatus</span><span class="token punctuation">(</span><span class="token class-name">StatusConstant</span><span class="token punctuation">.</span><span class="token constant">ENABLE</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Setmeal</span><span class="token punctuation">></span></span> list <span class="token operator">=</span> setmealService<span class="token punctuation">.</span><span class="token function">list</span><span class="token punctuation">(</span>setmeal<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>2.在管理端接口SetmealController的 save、delete、update、startOrStop等方法上加入CacheEvict注解</p>
+<details>
+<summary><span style="color:green">设计代码展开</span></summary>
+
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token comment">/**
+    * 新增套餐
+    *
+    * @param setmealDTO
+    * @return
+    */</span>
+   <span class="token annotation punctuation">@PostMapping</span>
+   <span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"新增套餐"</span><span class="token punctuation">)</span>
+   <span class="token annotation punctuation">@CacheEvict</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"setmealCache"</span><span class="token punctuation">,</span>key <span class="token operator">=</span> <span class="token string">"#setmealDTO.categoryId"</span><span class="token punctuation">)</span><span class="token comment">//key: setmealCache::100</span>
+   <span class="token keyword">public</span> <span class="token class-name">Result</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">SetmealDTO</span> setmealDTO<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       setmealService<span class="token punctuation">.</span><span class="token function">saveWithDish</span><span class="token punctuation">(</span>setmealDTO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token comment">/**
+    * 批量删除套餐
+    *
+    * @param ids
+    * @return
+    */</span>
+   <span class="token annotation punctuation">@DeleteMapping</span>
+   <span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"批量删除套餐"</span><span class="token punctuation">)</span>
+   <span class="token annotation punctuation">@CacheEvict</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"setmealCache"</span><span class="token punctuation">,</span>allEntries <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+   <span class="token keyword">public</span> <span class="token class-name">Result</span> <span class="token function">delete</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Long</span><span class="token punctuation">></span></span> ids<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       setmealService<span class="token punctuation">.</span><span class="token function">deleteBatch</span><span class="token punctuation">(</span>ids<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token comment">/**
+    * 修改套餐
+    *
+    * @param setmealDTO
+    * @return
+    */</span>
+   <span class="token annotation punctuation">@PutMapping</span>
+   <span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"修改套餐"</span><span class="token punctuation">)</span>
+   <span class="token annotation punctuation">@CacheEvict</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"setmealCache"</span><span class="token punctuation">,</span>allEntries <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+   <span class="token keyword">public</span> <span class="token class-name">Result</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">SetmealDTO</span> setmealDTO<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       setmealService<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>setmealDTO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+
+   <span class="token comment">/**
+    * 套餐起售停售
+    *
+    * @param status
+    * @param id
+    * @return
+    */</span>
+   <span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/status/&#123;status&#125;"</span><span class="token punctuation">)</span>
+   <span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"套餐起售停售"</span><span class="token punctuation">)</span>
+   <span class="token annotation punctuation">@CacheEvict</span><span class="token punctuation">(</span>cacheNames <span class="token operator">=</span> <span class="token string">"setmealCache"</span><span class="token punctuation">,</span>allEntries <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+   <span class="token keyword">public</span> <span class="token class-name">Result</span> <span class="token function">startOrStop</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span> <span class="token class-name">Integer</span> status<span class="token punctuation">,</span> <span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       setmealService<span class="token punctuation">.</span><span class="token function">startOrStop</span><span class="token punctuation">(</span>status<span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span></code></pre>
+</details>
+
+<h2 id="添加购物车"><a href="#添加购物车" class="headerlink" title="添加购物车"></a>添加购物车</h2><h3 id="需求分析和设计"><a href="#需求分析和设计" class="headerlink" title="需求分析和设计"></a>需求分析和设计</h3><p>产品原型：</p>
+<p>用户可以将菜品或者套餐添加到购物车。对于菜品来说，如果设置了口味信息，则需要选择规格后才能加入购物车;对于套餐来说，可以直接点击+将当前套餐加入购物车。在购物车中可以修改菜品和套餐的数量，也可以清空购物车。</p>
+<p>接口设计<br><img src="/../images/%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96images/3.png" alt="alt text"><br>数据库表shopping_cart设计(购物车中的数据也需要存储在表中)。<br><img src="/../images/%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96images/4.png" alt="alt text"></p>
+<p>说明：</p>
+<ul>
+  <li>购物车数据是关联用户的，在表结构中，我们需要记录，每一个用户的购物车数据是哪些</li>
+  <li>菜品列表展示出来的既有套餐，又有菜品，如果用户选择的是套餐，就保存套餐ID(setmeal_id)，如果用户选择的是菜品，就保存菜品ID(dish_id)</li>
+  <li>对同一个菜品/套餐，如果选择多份不需要添加多条记录，增加数量number即可</li>
+</ul>
+
+<h3 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h3><p>1.ShoppingCartController</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/user/shoppingCart"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token annotation punctuation">@Api</span><span class="token punctuation">(</span>tags <span class="token operator">=</span> <span class="token string">"C端-购物车接口"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ShoppingCartController</span> <span class="token punctuation">&#123;</span>
+ 
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ShoppingCartService</span> shoppingCartService<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/add"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">"添加购物车"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">Result</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">ShoppingCartDTO</span> shoppingCartDTO<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"添加购物车：&#123;&#125;"</span><span class="token punctuation">,</span> shoppingCartDTO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        shoppingCartService<span class="token punctuation">.</span><span class="token function">addShoppingCart</span><span class="token punctuation">(</span>shoppingCartDTO<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//后绪步骤实现</span>
+        <span class="token keyword">return</span> <span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span></code></pre>
+<p>2.ShoppinCartDTO</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ShoppingCartDTO</span> <span class="token keyword">implements</span> <span class="token class-name">Serializable</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Long</span> dishId<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">Long</span> setmealId<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> dishFlavor<span class="token punctuation">;</span>
+
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>3.ShoppingCartService接口</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">ShoppingCartService</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">void</span> <span class="token function">addShoppingCart</span><span class="token punctuation">(</span><span class="token class-name">ShoppingCart</span> shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>4.ShoppingCartServiceImpl</p>
+<p>当我们添加购物车的时候需要判断，添加的商品是否已经在购物车里了，如果已经存在就只需要执行修改操作将该菜品的数量加一，反之执行插入语句插入菜品。<span style="color:blue">需要注意的是口味的不同的相同菜品也是不同的</span>通过user_id来判断是谁的购物车。因为购物车可能存的是dish或者是setmeal，所以我们还需要判断一下添加的类型，可以判断传入的数据中的dishId是否为空。</p>
+需要执行的SQL语句
+<p>select * from shopping_cart where user_id = ? and setmeal_id = ?</p>
+<p>select * from shopping_cart where user_id = ? and dish_id = ? and dish_flavor</p>
+
+<details>
+<summary><span style="color:green">设计代码展开</span></summary>
+
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ShoppingCartServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">ShoppingCartService</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">ShoppingCartMapper</span> shoppingCartMapper<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">DishMapper</span> dishMapper<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">SetmealMapper</span> setmealMapper<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">addShoppingCart</span><span class="token punctuation">(</span><span class="token class-name">ShoppingCartDTO</span> shoppingCartDTO<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">ShoppingCart</span> shoppingCart <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ShoppingCart</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//拷贝dishId,setmealId,dishFlavor</span>
+        <span class="token class-name">BeanUtils</span><span class="token punctuation">.</span><span class="token function">copyProperties</span><span class="token punctuation">(</span>shoppingCartDTO<span class="token punctuation">,</span> shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//获取userid并封装</span>
+        shoppingCart<span class="token punctuation">.</span><span class="token function">setUserId</span><span class="token punctuation">(</span><span class="token class-name">BaseContext</span><span class="token punctuation">.</span><span class="token function">getCurrentId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//判断当前商品是否在购物车中</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ShoppingCart</span><span class="token punctuation">></span></span> shoppingCartList <span class="token operator">=</span> shoppingCartMapper<span class="token punctuation">.</span><span class="token function">list</span><span class="token punctuation">(</span>shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>shoppingCartList <span class="token operator">!=</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> shoppingCartList<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">//如果已经存在，就更新数量，数量加1</span>
+            <span class="token comment">//get(0)是取出列表中的第一条数据，虽然我们用列表来接收，但我们只会在数据库中搜索到一个数据</span>
+            shoppingCart <span class="token operator">=</span> shoppingCartList<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            shoppingCart<span class="token punctuation">.</span><span class="token function">setNumber</span><span class="token punctuation">(</span>shoppingCart<span class="token punctuation">.</span><span class="token function">getNumber</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            shoppingCartMapper<span class="token punctuation">.</span><span class="token function">updateNumberById</span><span class="token punctuation">(</span>shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">//如果不存在，插入数据，数量就是1</span>
+            <span class="token comment">//判断当前添加到购物车的是菜品还是套餐</span>
+            <span class="token class-name">Long</span> dishId <span class="token operator">=</span> shoppingCartDTO<span class="token punctuation">.</span><span class="token function">getDishId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>dishId <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">//添加到购物车的是菜品</span>
+                <span class="token class-name">Dish</span> dish <span class="token operator">=</span> dishMapper<span class="token punctuation">.</span><span class="token function">getById</span><span class="token punctuation">(</span>dishId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                shoppingCart<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span>dish<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                shoppingCart<span class="token punctuation">.</span><span class="token function">setImage</span><span class="token punctuation">(</span>dish<span class="token punctuation">.</span><span class="token function">getImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                shoppingCart<span class="token punctuation">.</span><span class="token function">setAmount</span><span class="token punctuation">(</span>dish<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">//添加到购物车的是套餐</span>
+                <span class="token class-name">Setmeal</span> setmeal <span class="token operator">=</span> setmealMapper<span class="token punctuation">.</span><span class="token function">getById</span><span class="token punctuation">(</span>shoppingCartDTO<span class="token punctuation">.</span><span class="token function">getSetmealId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                shoppingCart<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span>setmeal<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                shoppingCart<span class="token punctuation">.</span><span class="token function">setImage</span><span class="token punctuation">(</span>setmeal<span class="token punctuation">.</span><span class="token function">getImage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                shoppingCart<span class="token punctuation">.</span><span class="token function">setAmount</span><span class="token punctuation">(</span>setmeal<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">//无论是dish还是setmeal都需要这个操作。</span>
+            shoppingCart<span class="token punctuation">.</span><span class="token function">setNumber</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            shoppingCart<span class="token punctuation">.</span><span class="token function">setCreateTime</span><span class="token punctuation">(</span><span class="token class-name">LocalDateTime</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            shoppingCartMapper<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span>shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+</code></pre>
+</details>
+
+<p>5.ShoppingCartMapper</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Mapper</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">ShoppingCartMapper</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ShoppingCart</span><span class="token punctuation">></span></span> <span class="token function">list</span><span class="token punctuation">(</span><span class="token class-name">ShoppingCart</span> shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+    <span class="token annotation punctuation">@Update</span><span class="token punctuation">(</span><span class="token string">"update shopping_cart set number = #&#123;number&#125; where id = #&#123;id&#125;"</span><span class="token punctuation">)</span>
+    <span class="token keyword">void</span> <span class="token function">updateNumberById</span><span class="token punctuation">(</span><span class="token class-name">ShoppingCart</span> shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+    <span class="token annotation punctuation">@Insert</span><span class="token punctuation">(</span><span class="token string">"insert into shopping_cart (name, user_id, dish_id, setmeal_id, dish_flavor, number, amount, image, create_time) "</span> <span class="token operator">+</span>
+            <span class="token string">" values (#&#123;name&#125;,#&#123;userId&#125;,#&#123;dishId&#125;,#&#123;setmealId&#125;,#&#123;dishFlavor&#125;,#&#123;number&#125;,#&#123;amount&#125;,#&#123;image&#125;,#&#123;createTime&#125;)"</span><span class="token punctuation">)</span>
+    <span class="token keyword">void</span> <span class="token function">insert</span><span class="token punctuation">(</span><span class="token class-name">ShoppingCart</span> shoppingCart<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>6.ShoppingCartMapper.xml</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8" ?></span>
+<span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">mapper</span> <span class="token name">PUBLIC</span> <span class="token string">"-//mybatis.org//DTD Mapper 3.0//EN"</span> <span class="token string">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span> <span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mapper</span> <span class="token attr-name">namespace</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.sky.mapper.ShoppingCartMapper<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>list<span class="token punctuation">"</span></span> <span class="token attr-name">parameterType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ShoppingCart<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ShoppingCart<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        select * from shopping_cart
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>where</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>userId != null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                and user_id = #&#123;userId&#125;
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dishId != null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                and dish_id = #&#123;dishId&#125;
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>setmealId != null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                and setmeal_id = #&#123;setmealId&#125;
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>if</span> <span class="token attr-name">test</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>dishFlavor != null<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                and dish_flavor = #&#123;dishFlavor&#125;
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>if</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>where</span><span class="token punctuation">></span></span>
+        order by create_time desc
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mapper</span><span class="token punctuation">></span></span></code></pre>
+
+</div></article><aside class="post-outline post-outline--desktop" aria-label="文章目录"><p class="post-outline__eyebrow">本文导航</p><p class="post-outline__title">章节概览</p><nav class="post-toc" data-post-toc><ol class="post-toc__list"><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E7%BC%93%E5%AD%98%E8%8F%9C%E5%93%81"><span class="post-toc__list-text">缓存菜品</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#SpringCache"><span class="post-toc__list-text">SpringCache</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E7%BC%93%E5%AD%98%E5%A5%97%E9%A4%90"><span class="post-toc__list-text">缓存套餐</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E6%B7%BB%E5%8A%A0%E8%B4%AD%E7%89%A9%E8%BD%A6"><span class="post-toc__list-text">添加购物车</span></a></li></ol></nav></aside></div><nav class="post-nav"><a class="post-nav__item post-nav__item--next" href="/2026/05/24/2026-5-19%E5%B0%8F%E8%AE%B0/"><span class="post-nav__label">下一篇</span><strong>2026.5.19小记</strong></a></nav></main><footer class="site-footer"><p class="site-footer__text">写下自己想写的话。</p><p class="site-footer__license">本站内容采用<a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans" target="_blank" rel="noopener"> CC BY-NC 4.0 </a>协议发布</p></footer></div></body></html>

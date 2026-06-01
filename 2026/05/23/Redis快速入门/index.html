@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#496b8c"><meta name="description" content="SpecialWeek"><meta name="author" content="SpecialWeek"><meta name="generator" content="Hexo 8.1.2"><title>Redis快速入门 | SpecialWeek</title><style>:root {
+  --accent: #496b8c;
+  --accent-strong: color-mix(in srgb, #496b8c 62%, #223142);
+  --accent-soft: #dce8f0;
+}</style><link rel="stylesheet" href="/css/hsad-theme.css"><script src="/js/hsad-theme.js" defer></script></head><body class="view-inner view-post"><div class="reading-progress" aria-hidden="true"><span class="reading-progress__bar" data-reading-progress></span></div><div class="page-aura page-aura--one"></div><div class="page-aura page-aura--two"></div><div class="site-shell"><aside class="site-sidebar"><section class="sidebar sidebar--desktop"><div class="sidebar__backdrop" style="background-image:url(/images/background.png)"></div><div class="sidebar__overlay"></div><div class="sidebar__content"><a class="sidebar__brand" href="/"><img class="sidebar__avatar" src="/images/1.jpg" alt="SpecialWeek"><div class="sidebar__identity"><h2 class="sidebar__title">SpecialWeek</h2><p class="sidebar__subtitle">为了美好的明天加油！！！！</p></div></a><p class="sidebar__description">写下我想写的话。</p><nav class="sidebar__nav" aria-label="Primary"><a href="/">首页</a><a href="/archives/">归档</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/links/">友链</a><a href="/about/">关于我</a></nav><div class="sidebar__social"><a href="https://github.com/SpecialWeek11" target="_blank" rel="noopener">GitHub</a><a href="mailto:504957307@qq.com" target="_blank" rel="noopener">E-Mail</a></div></div></section></aside><div class="mobile-topbar"><button class="mobile-topbar__toggle js-drawer-toggle" type="button" aria-label="Open navigation"><span></span><span></span><span></span></button><a class="mobile-topbar__title" href="/">SpecialWeek</a><a class="mobile-topbar__avatar" href="/"><img src="/images/1.jpg" alt="SpecialWeek"></a></div><div class="mobile-drawer" data-drawer aria-hidden="true"><div class="mobile-drawer__panel"><section class="sidebar sidebar--mobile"><div class="sidebar__backdrop" style="background-image:url(/images/background.png)"></div><div class="sidebar__overlay"></div><div class="sidebar__content"><a class="sidebar__brand" href="/"><img class="sidebar__avatar" src="/images/1.jpg" alt="SpecialWeek"><div class="sidebar__identity"><h2 class="sidebar__title">SpecialWeek</h2><p class="sidebar__subtitle">为了美好的明天加油！！！！</p></div></a><p class="sidebar__description">写下我想写的话。</p><nav class="sidebar__nav" aria-label="Primary"><a href="/">首页</a><a href="/archives/">归档</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/links/">友链</a><a href="/about/">关于我</a></nav><div class="sidebar__social"><a href="https://github.com/SpecialWeek11" target="_blank" rel="noopener">GitHub</a><a href="mailto:504957307@qq.com" target="_blank" rel="noopener">E-Mail</a></div></div></section></div></div><div class="mobile-backdrop js-drawer-close"></div><main class="site-main"><div class="article-layout article-layout--with-toc"><article class="article"><header class="article__header"><h1 class="article__title">Redis快速入门</h1><div class="article__meta"><time datetime="2026-05-23T11:41:30.000Z">2026-05-23</time><span class="article__divider">/</span><span>更新于 2026-05-31</span></div><div class="article__tags"><a class="article__tag" href="/tags/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96/">苍穹外卖</a></div></header><details class="post-outline post-outline--mobile"><summary class="post-outline__summary"><span>本文导航</span><small>按标题快速定位</small></summary><nav class="post-toc" data-post-toc><ol class="post-toc__list"><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E5%85%A5%E9%97%A8"><span class="post-toc__list-text">入门</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="post-toc__list-text">常用的Redis数据类型</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#Redis%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="post-toc__list-text">Redis的常用命令</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#java%E4%B8%AD%E6%93%8D%E4%BD%9CReids"><span class="post-toc__list-text">java中操作Reids</span></a><ol class="post-toc__list-child"><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#Redis%E7%9A%84java%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="post-toc__list-text">Redis的java客户端</span></a></li><li class="post-toc__list-item post-toc__list-level-3"><a class="post-toc__list-link" href="#Spring-Data-Redis%E4%BD%BF%E7%94%A8"><span class="post-toc__list-text">Spring Data Redis使用</span></a></li></ol></li></ol></nav></details><div class="article__content"><h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><p>Redis是一个基于内存的Key-value结构数据库。mysql是以数据文件的形式存在磁盘的数据库，存储介质不同。数据结构不同：Redis是以键值对的方式，mysql是以二维表的方式</p>
+
+<p>Redis的优势：</p>
+<ul>
+  <li>基于内存存储，读写能力强</li>
+  <li>适合存储热点数据（热点商品，资讯，新闻）</li>
+  <li>企业应用广泛</li>
+</ul>
+热点数据就是有大量的用户访问的数据。Redis和MySQL是互补的。
+
+<p>Redis下载连接：<a target="_blank" rel="noopener" href="https://github.com/microsoftarchive/redis/releases">https://github.com/microsoftarchive/redis/releases</a></p>
+<p>在Redis所在文件加下打开命令行窗口输入:redis-server.exe redis.windows.conf就启动了。ctrl+c退出。可以在windows.conf中配置端口号（默认6379），密码等。然后打开一个新的命令行窗口（上一个命令行窗口不要关闭），输入：redis-cli.exe连接客户端（可以指定连接的服务器如：redis-cli.exe -h localhost -p 6379 -a 密码）</p>
+
+<p>对于客户端我们还可以下载使用Another-Redis-Desktop-Manager应用程序比命令行操控方便的多,前提是用cmd开启redis服务端。</p>
+
+<p>redis 初始就自动创建了16个数据库。DB0 ~ DB15；</p>
+<h2 id="常用的Redis数据类型"><a href="#常用的Redis数据类型" class="headerlink" title="常用的Redis数据类型"></a>常用的Redis数据类型</h2><p>其中key是字符串类型的，value有五种常用类型：string hash list set 和有序集合（sorted set / zset）其中的hash类似于java中的hashMap结构</p>
+
+<p><img src="/../images/3.jpg" alt="alt text"></p>
+<h2 id="Redis的常用命令"><a href="#Redis的常用命令" class="headerlink" title="Redis的常用命令"></a>Redis的常用命令</h2><p>1.字符串</p>
+<ul>
+  <li>SET key value 设置指定key的值(这个会覆盖原来的值)</li>
+  <li>GET key 获取指定key的值</li>
+  <li>SETEX key seconds value 设置指定key的值，并将key的过期时间设为seconds秒</li>
+  <li>SETNX key value 只有在key不存在的时候设置key的值</li>
+</ul>
+
+<p>2.hash操作命令<br>hash的结构 key -&gt;(fild -&gt; value)，就像map一样。<br><img src="/../images/4.png" alt="alt text"></p>
+<p>3.列表<br>新增元素是在列表的头部添加的。一个键可以存多个值，就像链表一样，key像头指针。<br><img src="/../images/5.png" alt="alt text"></p>
+<p>4.集合<br><img src="/../images/6.png" alt="alt text"></p>
+<p>5.有序集合<br>double类型用来排序用的。那个score是指定这个double。<br><img src="/../images/7.png" alt="alt text"></p>
+<p>–通用命令</p>
+<ul>
+  <li>KEYS pattern 查找所有符合给定模式（pattern）的key</li>
+  <li>EXISTS key 检查给定key是否存在</li>
+  <li>TYPE key 返回key所存储的值的类型</li>
+  <li>DEL key 该命令用于在key存在时删除key</li>
+</ul>
+
+<h2 id="java中操作Reids"><a href="#java中操作Reids" class="headerlink" title="java中操作Reids"></a>java中操作Reids</h2><h3 id="Redis的java客户端"><a href="#Redis的java客户端" class="headerlink" title="Redis的java客户端"></a>Redis的java客户端</h3><p>1.jedis 2.Lettuce 3.Spring Data Redis</p>
+<p>Spring Data Redis是Spring的一部分,对Redis底层开发包进行了高度封装。在Spring项目中,可以使用Spring Data Redis来简化操作。</p>
+
+<h3 id="Spring-Data-Redis使用"><a href="#Spring-Data-Redis使用" class="headerlink" title="Spring Data Redis使用"></a>Spring Data Redis使用</h3><p>1.导入坐标（在server的xml中导入）</p>
+<pre class="language-XML" data-language="XML"><code class="language-XML">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;
+&lt;&#x2F;dependency&gt;</code></pre>
+
+<p>2.配置Redis数据源（在苍穹外卖的server-&gt;resources-&gt;application.yml也是数据库配置的地方）</p>
+<pre class="language-YML" data-language="YML"><code class="language-YML">spring:
+  redis:
+    host: localhost
+    port: 6379
+    password: 258000
+    database: 指定数据库，默认时DB0</code></pre>
+
+<p>3.编写配置类，创建RedisTemplate对象</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@S1f4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RedisConfiguration</span> <span class="token punctuation">&#123;</span>
+<span class="token annotation punctuation">@Bean</span>
+  <span class="token keyword">public</span> <span class="token class-name">RedisTemplate</span> <span class="token function">redisTemplate</span><span class="token punctuation">(</span><span class="token class-name">RedisConnectionFactory</span> redisConnectionFactory<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"开始创建redis模板类 ... "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">RedisTemplate</span> redisTemplate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RedisTemplate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 设置key的序列化器,默认为JdkSerializationRedisSerializer</span>
+    redisTemplate<span class="token punctuation">.</span><span class="token function">setKeySerializer</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StringRedisSerializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    redisTemplate<span class="token punctuation">.</span><span class="token function">setConnectionFactory</span><span class="token punctuation">(</span>redisConnectionFactory<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> redisTemplate<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>4.通过RedisTemplate对象操作Redis</p>
+注入redisTemplate调用函数控制数据库。
+<p>java的Sring和Redis中的String不太一样。所以在java程序中会对数据进行序列化在传给Redis。在RedisConfiguration中我们配置序列化器，如果不配置的话他会使用默认的序列化器，在Redis数据库中会出现乱码，但在java程序中使用数据的时候不会出现问题。</p>
+<p>记住java程序中向Redis中放的什么类型的数据，取出来的时候就用什么来接收，需要进行强转在下面的Hash类型有示例。</p>
+示例：
+
+<pre class="language-java" data-language="java"><code class="language-java">redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span><span class="token string">"小明"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">String</span> city <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">)</span> redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>city<span class="token punctuation">)</span><span class="token punctuation">;</span>
+redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span> key<span class="token operator">:</span> <span class="token string">"code"</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"1234"</span><span class="token punctuation">,</span> timeout<span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token class-name">TimeUnit</span><span class="token punctuation">.</span><span class="token constant">MINUTES</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setIfAbsent</span><span class="token punctuation">(</span><span class="token string">"lock"</span><span class="token punctuation">,</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setIfAbsent</span><span class="token punctuation">(</span><span class="token string">"lock"</span><span class="token punctuation">,</span><span class="token string">"2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>对于哈希类型的我们先用opsForHash()获取一个hash对象。然后照葫芦画瓢跟着做就行了。</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token class-name">HashOperations</span> hashOperations <span class="token operator">=</span> redisTemplate<span class="token punctuation">.</span><span class="token function">opsForHash</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+hashOperations<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span> key<span class="token operator">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span> hashKey<span class="token operator">:</span> <span class="token string">"name"</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"tom"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+hashOperations<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span> key<span class="token operator">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span> hashKey<span class="token operator">:</span> <span class="token string">"age"</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token string">"20"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">String</span> name <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">)</span> hashOperations<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span> key<span class="token operator">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span> hashKey<span class="token operator">:</span> <span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Set</span> keys <span class="token operator">=</span> hashOperations<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token string">"100"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>keys<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span> values <span class="token operator">=</span> hashOperations<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span> key<span class="token operator">:</span> <span class="token string">"100"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+hashOperations<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span> key<span class="token operator">:</span> <span class="token string">"100"</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> hashKeys<span class="token operator">:</span> <span class="token string">"age"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>剩下的几种类型一样。如：列表ListOperations 集合SetOperations，对应的方法会有所不同。因为只是快速入门，反正也记不住问ai就行。</p>
+</div></article><aside class="post-outline post-outline--desktop" aria-label="文章目录"><p class="post-outline__eyebrow">本文导航</p><p class="post-outline__title">章节概览</p><nav class="post-toc" data-post-toc><ol class="post-toc__list"><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E5%85%A5%E9%97%A8"><span class="post-toc__list-text">入门</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84Redis%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="post-toc__list-text">常用的Redis数据类型</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#Redis%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="post-toc__list-text">Redis的常用命令</span></a></li><li class="post-toc__list-item post-toc__list-level-2"><a class="post-toc__list-link" href="#java%E4%B8%AD%E6%93%8D%E4%BD%9CReids"><span class="post-toc__list-text">java中操作Reids</span></a></li></ol></nav></aside></div><nav class="post-nav"><a class="post-nav__item post-nav__item--prev" href="/2026/05/24/2026-5-19%E5%B0%8F%E8%AE%B0/"><span class="post-nav__label">上一篇</span><strong>2026.5.19小记</strong></a><a class="post-nav__item post-nav__item--next" href="/2026/05/15/mybatis-plus/"><span class="post-nav__label">下一篇</span><strong>mybatis-plus</strong></a></nav></main><footer class="site-footer"><p class="site-footer__text">写下自己想写的话。</p><p class="site-footer__license">本站内容采用<a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans" target="_blank" rel="noopener"> CC BY-NC 4.0 </a>协议发布</p></footer></div></body></html>
